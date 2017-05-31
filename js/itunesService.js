@@ -8,11 +8,13 @@ angular.module('itunes').service('itunesService', function($http, $q){
   //You can return the http request or you can make your own promise in order to manipulate the data before you resolve it.
 
     //Code here
-    
-
-
-
-
+    this.getArtistInfo = function(artistName){
+      var artistData = $http({
+        method: 'GET',
+        url: 'https://itunes.apple.com/search?term=' + artistName + '&callback=JSON_CALLBACK'
+      })
+      return artistData;
+      };
     // Go to the next step in the README (Tie in your controller). You will come back to these instructions shortly.
     // 
     // You need to sort the data you get back from the itunes API to be an object in the following format.
@@ -27,6 +29,20 @@ angular.module('itunes').service('itunesService', function($http, $q){
   */
   //the iTunes API is going to give you a lot more details than ng-grid wants. Create a new array and then loop through the iTunes data pushing into your new array objects that look like the above data. Make sure your method returns this finalized array of data. 
   // When this is complete, head back to your controller.
-
+  this.parseReceivedData = function(artistData){
+    var songData = [];
+    for (var prop in artistData){
+      if (artistData.hasOwnProperty('AlbumArt') && artistData.hasOwnProperty('Artist') && artistData.hasOwnProperty('Song') && artistData.hasOwnProperty('Collection') && artistData.hasOwnProperty('CollectionPrice') && artistData.hasOwnProperty('Play') && artistData.hasOwnProperty('Type')){
+        songData[0] = artistData.AlbumArt;
+        songData[1] = artistData.Artist;
+        songData[2] = artistData.Song;
+        songData[3] = artistData.Collection;
+        songData[4] = artistData.CollectionPrice;
+        songData[5] = artistData.Play;
+        songData[6] = artistData.Type;
+      }
+    }
+    return songData;
+  };
 
 });
