@@ -14,17 +14,18 @@ angular.module('itunes').service('itunesService', function($http, $q){
     function parseReceivedData(artistData){
     var parseTheData = artistData.map(function(artist){
        var songData = {
-        AlbumArt: artistData.artworkUrl30,
-        Artist: artistData.artistName,
-        Song: artistData.trackName,
-        Collection: artistData.collectionName,
-        Price: artistData.collectionPrice,
-        Play: artistData.previewUrl,
-        Type: artistData.primaryGenreName
+        AlbumArt: artist.artworkUrl30,
+        Artist: artist.artistName,
+        Song: artist.trackName,
+        Collection: artist.collectionName,
+        CollectionPrice: artist.collectionPrice,
+        Play: artist.previewUrl,
+        Type: artist.primaryGenreName
       };
       console.log(songData);
       return songData;
     });
+    return parseTheData;
     }
     
     function getArtistInfo(artistName){
@@ -35,8 +36,8 @@ angular.module('itunes').service('itunesService', function($http, $q){
       
       console.log(response);
       return parseReceivedData(response.data.results);
-
-      })
+    })
+    return artistData;
       };
     // Go to the next step in the README (Tie in your controller). You will come back to these instructions shortly.
     // 
